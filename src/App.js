@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { ButtonToolbar, DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
+import ReactTable from 'react-table';
 import { GESTATIONAL, WEIGHT, INDICATORS } from './Factors';
 import lookup from './data/lookup.json';
 import './App.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/ClearButton.css';
+import 'react-table/react-table.css';
 
 class DropdownFactory extends Component {
   constructor(props) {
@@ -55,25 +57,39 @@ class ResultsList extends Component {
       'Marital Status': 'Marital',
       'Maternal Education': 'Education',
       'Smoking during pregnancy': 'Smoking',
-      'Initiation of prenatal care': 'Prenatal'
+      'Initiation of prenatal care': 'Prenatal',
     };
 
     if (nextProps.town && nextProps.weight && nextProps.gestational && nextProps.indicatorType) {
       const newDataObject = this.getData(keyMap[nextProps.indicatorType], nextProps);
-      console.log(newDataObject);
       this.setState({ data: newDataObject });
+    } else {
+      this.setState({ data: null });
     }
   }
 
   render() {
     if (this.state.data) {
       const dataList = this.state.data;
-      const listItems = dataList.map((row) =>
-        <div>
-          <span>Variable: {row.Variable}</span><span> Latest Year Available: {row['Latest Year Available']}</span>
-        </div>
-      );
-      return (<div>{listItems}</div>)
+      const columns = [{
+        Header: 'Variable',
+        accessor: 'Variable'
+      }, {
+        Header: 'Latest Year Available',
+        accessor: 'Latest Year Available'
+      }];
+      // const listItems = dataList.map((row) =>
+      //   <div>
+      //     <span>Variable: {row.Variable}</span><span> Latest Year Available: {row['Latest Year Available']}</span>
+      //   </div>
+      // );
+      // return (<div>{listItems}</div>)
+      return <ReactTable
+        data={dataList}
+        columns={columns}
+        className="-striped -highlight"
+        defaultPageSize={10}
+      />
     }
     else {
       return (<div>No data available.</div>)
