@@ -73,10 +73,16 @@ class ResultsList extends Component {
       const dataList = this.state.data;
       const columns = [{
         Header: 'Variable',
-        accessor: 'Variable'
+        accessor: 'Variable',
       }, {
         Header: 'Latest Year Available',
-        accessor: 'Latest Year Available'
+        accessor: 'Latest Year Available',
+      }, {
+        Header: 'Link',
+        accessor: 'Link',
+        Cell: row => (
+          row.value ? <span><a href={row.value}>Link to data</a></span> : <span>No data available</span>
+        )
       }];
       // const listItems = dataList.map((row) =>
       //   <div>
