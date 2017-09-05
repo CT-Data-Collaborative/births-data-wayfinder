@@ -16,4 +16,10 @@ const INDICATORS = [
   'Initiation of prenatal care',
 ];
 
-export {GESTATIONAL, WEIGHT, INDICATORS};
+const VARIABLE = [
+  'Birth Weight',
+  'Gestational Age',
+  'All'
+];
+
+export {GESTATIONAL, WEIGHT, INDICATORS, VARIABLE};
