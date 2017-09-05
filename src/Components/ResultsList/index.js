@@ -13,11 +13,13 @@ class ResultsList extends Component {
 
   getData = (key, newProps) => {
     // TODO: We should replace this w/ an async call to a lambda API.
-    const town = newProps.town;
+    const towns = newProps.town;
     const gest = newProps.gestational ? newProps.gestational : 'All';
     const weight = newProps.weight ? newProps.weight : 'All';
     try {
-      return lookup[town][weight][gest][key];
+      return towns.map((town) => {
+        return lookup[town][weight][gest][key];
+      }).reduce((a,b) => {return a.concat(b)});
     } catch (err) {
       console.log('no data');
       return null;

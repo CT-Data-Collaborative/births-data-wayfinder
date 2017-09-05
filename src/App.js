@@ -14,78 +14,6 @@ import 'react-bootstrap-typeahead/css/ClearButton.css';
 import 'react-table/react-table.css';
 
 
-// class ResultsList extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       data: null,
-//     };
-//   }
-//
-//   getData = (key, newProps) => {
-//     const town = newProps.town;
-//     const gest = newProps.gestational;
-//     const weight = newProps.weight;
-//     try {
-//       return lookup[town][weight][gest][key];
-//     } catch (err) {
-//       console.log('no data');
-//       return null;
-//     }
-//   };
-//
-//   componentWillReceiveProps(nextProps) {
-//     const keyMap = {
-//       'Maternal Age': 'Age',
-//       'Maternal Race/Ethnicity': 'Race',
-//       'Marital Status': 'Marital',
-//       'Maternal Education': 'Education',
-//       'Smoking during pregnancy': 'Smoking',
-//       'Initiation of prenatal care': 'Prenatal',
-//     };
-//
-//     if (nextProps.town && nextProps.weight && nextProps.gestational && nextProps.indicatorType) {
-//       const newDataObject = this.getData(keyMap[nextProps.indicatorType], nextProps);
-//       this.setState({data: newDataObject});
-//     } else {
-//       this.setState({data: null});
-//     }
-//   }
-//
-//   render() {
-//     if (this.state.data) {
-//       const dataList = this.state.data;
-//       const columns = [{
-//         Header: 'Variable',
-//         accessor: 'Variable',
-//       }, {
-//         Header: 'Latest Year Available',
-//         accessor: 'Latest Year Available',
-//       }, {
-//         Header: 'Link',
-//         accessor: 'Link',
-//         Cell: row => (
-//           row.value ? <span><a href={row.value}>Link to data</a></span> : <span>No data available</span>
-//         )
-//       }];
-//       // const listItems = dataList.map((row) =>
-//       //   <div>
-//       //     <span>Variable: {row.Variable}</span><span> Latest Year Available: {row['Latest Year Available']}</span>
-//       //   </div>
-//       // );
-//       // return (<div>{listItems}</div>)
-//       return <ReactTable
-//         data={dataList}
-//         columns={columns}
-//         className="-striped -highlight"
-//         defaultPageSize={10}
-//       />
-//     }
-//     else {
-//       return (<div>No data available.</div>)
-//     }
-//   }
-// }
 
 class App extends Component {
   constructor(props) {
@@ -100,7 +28,9 @@ class App extends Component {
   };
 
   updateTown = (town) => {
-    if (town === '') {
+    console.log(town);
+    console.log(this);
+    if (town === []) {
       this.setState({town: null});
     } else {
       this.setState({town});
@@ -192,7 +122,9 @@ class App extends Component {
             <div className="row">
               <h4>1. Select one or more towns to view data availability for</h4>
               <Typeahead
-                onInputChange={(town) => this.updateTown(town)}
+                multiple
+                clearButton
+                onChange={town => this.updateTown(town)}
                 options={Object.keys(lookup)}
                 placeholder="Choose a town or city..."
                 ref={ref => this._typeahead = ref}
