@@ -1,4 +1,9 @@
-const GESTATIONAL = ['All', 'Less than 37 weeks', '37 weeks or more', 'Gestational age unknown'];
+const GESTATIONAL = [
+  'All',
+  'Less than 37 weeks',
+  '37 weeks or more',
+  'Gestational age unknown'
+];
 
 const WEIGHT = [
     'All',

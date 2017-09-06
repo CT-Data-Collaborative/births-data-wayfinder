@@ -50,7 +50,11 @@ class App extends Component {
   };
 
   updateDisaggregation = (disaggregation) => {
-    this.setState({disaggregation})
+    this.setState({
+      disaggregation,
+      gestational: null,
+      weight: null
+    })
   };
 
   filterButtons = () => {
@@ -70,36 +74,34 @@ class App extends Component {
     this.setState({[e.filter]: null});
   };
 
-  toggleDisaggregationDropdown = (d) => {
-    if (d == null) {
-      return <div></div>
-    } else if (d === 'Birth Weight') {
+  toggleBirthWeightDropdown = (d) => {
+    if (d === 'Birth Weight') {
       return (<div>
-        <h4>4. Filter by specific birth weight</h4>
+        <h4>4. Filter by birth weight</h4>
         <DropdownFactory
           choices={WEIGHT}
           title="Birth Weight"
           onSelect={(weight) => this.updateWeight(weight)}
         />
       </div>)
-    } else if (d === 'Gestational Age') {
+    }
+  }
+
+  toggleGestationalAgeDropdown = (d) => {
+    if (d === 'Gestational Age') {
       return (<div>
-        <h4>4. Filter by specific gestational age</h4>
+        <h4>4. Filter by gestational age</h4>
         <DropdownFactory
           choices={GESTATIONAL}
           title="Gestational Age"
           onSelect={(age) => this.updateGest(age)}
         />
       </div>)
-    } else {
-      return (<div></div>)
     }
   };
 
   render() {
     const filterChoices = this.filterButtons();
-    const disaggregation = this.state.disaggregation;
-    const disaggregationDropdown = this.toggleDisaggregationDropdown(disaggregation);
     return (
       <div className="App">
         <div className="App-header">
@@ -132,7 +134,7 @@ class App extends Component {
             </div>
             <div className="row">
               <div>
-                <h4>2. Choose a maternal variable</h4>
+                <h4>2. Choose a maternal characteristic variable</h4>
                 <DropdownFactory
                   choices={INDICATORS}
                   title="Maternal Descriptive"
@@ -140,7 +142,7 @@ class App extends Component {
                 />
               </div>
               <div>
-                <h4>3. Choose disaggregation</h4>
+                <h4>3. Choose an optional disaggregation</h4>
                 <DropdownFactory
                   choices={VARIABLE}
                   title="Disaggregation"
@@ -148,7 +150,8 @@ class App extends Component {
                 />
               </div>
               <div>
-                {disaggregationDropdown}
+                {this.toggleBirthWeightDropdown(this.state.disaggregation)}
+                {this.toggleGestationalAgeDropdown(this.state.disaggregation)}
               </div>
             </div>
             <div className="row">
