@@ -9,7 +9,8 @@
     "react-bootstrap-typeahead": "^1.4.0",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.10",
-    "react-table": "^6.4.0"
+    "react-table": "^6.4.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

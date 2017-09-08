@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ReactTable from 'react-table';
-import lookup from '../../data/lookup.json';
 
 class ResultsList extends Component {
   constructor(props) {
@@ -14,16 +13,28 @@ class ResultsList extends Component {
   getData = (key, newProps) => {
     // TODO: We should replace this w/ an async call to a lambda API.
     const towns = newProps.town;
+    console.log(towns);
     const gest = newProps.gestational ? newProps.gestational : 'All';
     const weight = newProps.weight ? newProps.weight : 'All';
-    try {
-      return towns.map((town) => {
-        return lookup[town][weight][gest][key];
-      }).reduce((a,b) => {return a.concat(b)});
-    } catch (err) {
-      console.log('no data');
-      return null;
-    }
+    let newData = [];
+    towns.forEach((town) => {
+      const cachedTown = localStorage.getItem(town);
+      if (cachedTown) {
+        let newRows = JSON.parse(cachedTown)[weight][gest][key];
+        Array.prototype.push.apply(newData, newRows);
+        this.setState({data: newData});
+      } else {
+        let url = 'https://x0gjb3ypo5.execute-api.us-east-1.amazonaws.com/dev/towns/' + town;
+        fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          localStorage.setItem(town, JSON.stringify(data));
+          let newRows = data[weight][gest][key];
+          Array.prototype.push.apply(newData, newRows);
+          this.setState({data: newData});
+        });
+      }
+    });
   };
 
   componentWillReceiveProps(nextProps) {
@@ -37,7 +48,7 @@ class ResultsList extends Component {
     };
 
     if (nextProps.town && nextProps.indicatorType) {
-      const newDataObject = this.getData(keyMap[nextProps.indicatorType], nextProps);
+      this.getData(keyMap[nextProps.indicatorType], nextProps);
       const columns = [{
         Header: 'Town',
         accessor: 'Town'
@@ -68,7 +79,7 @@ class ResultsList extends Component {
           row.value ? <span><a href={row.value}>Link to data</a></span> : <span>No data available</span>
         )
       });
-      this.setState({data: newDataObject, columns});
+      this.setState({columns});
     } else {
       this.setState({data: null, columns: null});
     }

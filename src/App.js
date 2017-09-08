@@ -28,8 +28,6 @@ class App extends Component {
   };
 
   updateTown = (town) => {
-    console.log(town);
-    console.log(this);
     if (town === []) {
       this.setState({town: null});
     } else {
@@ -110,14 +108,14 @@ class App extends Component {
         <div className="row">
           <div className="col-sm-8 col-sm-offset-2">
             <div className="row">
-              <p>In an effort to reduce suppressions for small towns, the Department of Public Health provides 3 and 5
-                year averages in addition one year data. Use this tool to find the dataset(s) that will give you the
-                most detailed information available at the town level.</p>
-              <p>There are 9 datasets that make up the available birth data. In an effort to improve the user
-                experience, we created that this tool that enables you to discern what dataset has the information you
-                need and then go directly to that dataset.</p>
-              <p>Please make the selections as to what dissagregations of the data you're interested in viewing. Please
-                note, not all cross-tabulations are available. For example, you can look at each individual maternal
+              <p>The CT Department of Public Health publishes a variety of data about births in the state. Due to the small
+                population size of many towns and the relatively small number of birhts occuring within those towns, data
+                is often suppressed. In an effort to reduce suppressions, the Department of Public Health provides 3 and 5
+                year averages in addition one year data.</p>
+              <p>There are 9 datasets published on <a href="http://data.ctdata.org">CTData</a> that make up the available
+                birth data. In an effort to improve the user experience, we have created this tool that enables you to
+                more easily narrow down which dataset has the information you need.</p>
+              <p>Please note, not all cross-tabulations are available. For example, you can look at each individual maternal
                 description by birth weight and gestational age but you cannot look at multiple maternal descriptives at
                 a time.</p>
             </div>
